@@ -33,3 +33,17 @@ Das-Bot is a friendly chat assistant designed for casual conversations, fun, and
 - Personalized user accounts.
 
 ---
+## File Structure
+
+File Structure
+```Das-bot/
+├── dasbot.py # Main backend Flask application
+├── responses.py # Bot response logic
+├── requirements.txt # Project dependencies
+├── static/ # Static files (CSS, JavaScript)
+│ ├── style.css # Stylesheet
+│ └── chat.js # JavaScript for chat functionality
+├── templates/ # HTML templates for rendering views
+│ └── index.html # Main page template
+├── .gitignore # Git ignore file
+└── README.md # Documentation
