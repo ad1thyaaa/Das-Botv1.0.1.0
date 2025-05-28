@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Das-Bot WebApp</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <style>
+        /* --- Existing styles --- */
+        .grayed-out {
+            color: #888;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        #mic-icon {
+            cursor: pointer;
+            margin-left: 10px;
+            vertical-align: middle;
+            position: relative;
+            height: 24px;
+            width: 24px;
+            user-select: none;
+        }
+        #mic-icon:hover::after {
+            content: "Voice convo will be implemented in the next update";
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 5px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            z-index: 1000;
+        }
+        #chat-container {
+            display: none;
+        }
+        #farewell-buttons {
+            margin-top: 15px;
+            display: none;
+        }
+        #farewell-buttons button {
+            margin-right: 10px;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #start-new-chat-btn {
+            background-color: #9b59b6;
+            color: white;
+        }
+        #stop-chat-btn {
+            background-color: #f78fb3;
+            color: white;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1b0a3d;
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        #intro {
+            background-color: #2e1a47;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        #intro h1 {
+            font-weight: bold;
+            font-size: 2.5rem;
+            color: white;
+            max-width: 600px;
+            line-height: 1.3;
+            margin-bottom: 40px;
+        }
+        #intro h1 span {
+            color: #f9d5e5;
+        }
+
+        .scroll-down {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: white;
+            user-select: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .scroll-down:hover {
+            color: #f78fb3;
+            transform: translateY(5px);
+        }
+
+        #homepage {
+            background-color: #2e1a47;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        #homepage h1 {
+            margin-bottom: 10px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        #homepage p {
+            margin: 5px 0;
+            font-size: 1.1rem;
+        }
+        #start-btn {
+            margin-top: 25px;
+            padding: 12px 30px;
+            background-color: #9b59b6;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        #start-btn:hover {
+            background-color: #bf4e8c;
+            box-shadow: 0 0 15px #f78fb3;
+        }
+
+        #readme {
+            background-color: #2e1a47;
+            padding: 40px 20px;
+            color: white;
+            max-width: 600px;
+            margin: 0 auto 60px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #d16ba5;
+        }
+        #readme h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        #readme h3 {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        #readme p, #readme ul {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        #readme ul {
+            padding-left: 20px;
+        }
+        #readme ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Chat container */
+        #chat-container.chatbox {
+            background: #5c3a72;
+            padding: 20px;
+            border-radius: 10px;
+            width: 550px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        #chat-log {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #4a2e75;
+            border-radius: 8px;
+            background-color: #311d57;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Fixed message stacking */
+        .chat-message {
+            display: inline-block;
+            clear: both;
+        }
+
+        .das-message {
+            background-color: #4e3781;
+            color: #f9d5e5;
+            padding: 10px 15px;
+            border-radius: 12px;
+            max-width: 70%;
+            white-space: pre-line;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+        .user-message {
+            background-color: #9b59b6;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 12px;
+            max-width: 70%;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        #chat-container > div:last-child {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: #f9d5e5;
+            color: #5c3a72;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 18px;
+            border: none;
+            background: #b983ff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
+            user-select: none;
+        }
+
+        button:hover {
+            background: #d291bc;
+            box-shadow: 0 0 10px #ff87b2, 0 0 20px #ff87b2;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <section id="intro">
+        <div class="center-text">
+            <h1>Hey there it's <span>DAS</span>, your friendly assistant to talk and chill with you.</h1>
+            <div class="scroll-down" onclick="scrollToHomepage()" title="Scroll down">
+                ↓ Scroll down to start talking with Das and to know more about our DAS-bot
+            </div>
+        </div>
+    </section>
+
+    <div id="homepage">
+        <h1>Welcome to Das-Bot web</h1>
+        <p>Das-Bot Version 1.0.1.0</p>
+        <p>Chat with Das, your friendly assistant bot.</p>
+        <button id="start-btn">Start talking with Das</button>
+    </div>
+
+    <div id="chat-container" class="chatbox" style="display:none;">
+        <h2>Das</h2>
+        <div id="chat-log"></div>
+        <div>
+            <input type="text" id="user-input" placeholder="Say something..." autocomplete="off" autofocus />
+            <img id="mic-icon" src="https://img.icons8.com/ios-filled/24/000000/microphone.png" alt="mic icon" title="Voice conversation coming soon" />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <div id="farewell-buttons" style="display:none;">
+            <button id="start-new-chat-btn">Start New Chat</button>
+            <button id="stop-chat-btn">Stop Talking with Das</button>
+        </div>
+    </div>
+
+    <div id="readme">
+        <h3>What is Das-Bot?</h3>
+        <p>Das-Bot is a friendly chat assistant that you can talk to for fun, help, or company. It’s designed to have casual conversations and keep you entertained.</p>
+        <p>Das-Bot is currently under development, further updates will keep on coming!</p>
+        <h3>How to use?</h3>
+        <ul>
+            <li>Click the <strong>Start talking with Das</strong> button to begin chatting.</li>
+            <li>Type your message in the input box and hit <em>Send</em>.</li>
+            <li>Das will respond to you in the chat window.</li>
+            <li>Use the mic icon for voice conversation (coming soon).</li>
+            <li>Use the buttons at the bottom to start a new chat or stop talking.</li>
+        </ul>
+        <h3>Features</h3>
+        <ul>
+            <li>Friendly chat interface with colored bubbles.</li>
+            <li>Easy to start, stop, and reset chats.</li>
+            <li>Clean, dark-themed UI with smooth interactions.</li>
+            <li>Voice conversation, Chat History and Personalized Accounts coming soon.</li>
+        </ul>
+    </div>
+
+    <script src="/static/chat.js"></script>
+    <script>
+        function scrollToHomepage() {
+            document.getElementById('homepage').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.getElementById('start-btn').addEventListener('click', () => {
+            document.getElementById('homepage').style.display = 'none';
+            document.getElementById('chat-container').style.display = 'flex';
+            document.getElementById('user-input').focus();
+            startChat();
+        });
+
+        function startChat() {
+            addBotMessage("Hello! I'm Das. How are you doing today?");
+            toggleFarewellButtons(false);
+        }
+
+        function addBotMessage(text) {
+            const chatLog = document.getElementById('chat-log');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', 'das-message');
+            messageDiv.textContent = text;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function addUserMessage(text) {
+            const chatLog = document.getElementById('chat-log');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', 'user-message');
+            messageDiv.textContent = text;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function toggleFarewellButtons(show) {
+            document.getElementById('farewell-buttons').style.display = show ? 'flex' : 'none';
+        }
+
+        async function sendMessage() {
+            const inputBox = document.getElementById('user-input');
+            const text = inputBox.value.trim();
+            if (!text) return;
+
+            addUserMessage(text);
+            inputBox.value = '';
+
+            try {
+                const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text })
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+               }
+                const data = await response.json();
+                addBotMessage(data.response || "Sorry, no reply from server.");
+            } catch (error) {
+                addBotMessage("Error: " + error.message);
+            }  
+
+            if (text.toLowerCase().includes("bye") || text.toLowerCase().includes("stop")) {
+                toggleFarewellButtons(true);
+            }
+        }
+
+        document.getElementById('start-new-chat-btn').addEventListener('click', () => {
+            document.getElementById('chat-log').innerHTML = '';
+            toggleFarewellButtons(false);
+            startChat();
+        });
+
+        document.getElementById('stop-chat-btn').addEventListener('click', () => {
+            document.getElementById('chat-container').style.display = 'none';
+            document.getElementById('homepage').style.display = 'block';
+            document.getElementById('chat-log').innerHTML = '';
+            toggleFarewellButtons(false);
+        });
+
+        // Optional: Enter key sends message
+        document.getElementById('user-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

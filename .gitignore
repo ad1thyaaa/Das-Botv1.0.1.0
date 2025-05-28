@@ -1,0 +1,26 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+
+# Environment variables / secrets
+.env
+*.env
+
+# JavaScript dev artifacts (if not using Node.js, keep it light)
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor & system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Temp or swap files
+*.tmp
+*.swp

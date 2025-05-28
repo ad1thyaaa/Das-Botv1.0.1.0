@@ -1,0 +1,156 @@
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background: #120627; /* darker extra dark purple */
+    color: #d6adc8; /* softer light pink */
+    margin: 0;
+    padding: 0;
+}
+
+/* Intro section */
+#intro-section {
+    height: 100vh;
+    background-color: #1b0c3e; /* darker dark purple */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#intro-section h1 {
+    color: #e8d1e8; /* softer white-pink */
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+#scroll-arrow {
+    margin-top: 20px;
+    color: #d6adc8;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+#scroll-arrow:hover {
+    transform: translateY(5px);
+    color: #bf7ba5; /* darker pink */
+}
+
+/* README section */
+#readme-section {
+    background-color: #1b0c3e; /* darker dark purple */
+    padding: 60px 20px;
+    color: #d6adc8;
+    text-align: center;
+}
+
+#readme-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+#readme-section p {
+    max-width: 600px;
+    margin: 0 auto 15px;
+    line-height: 1.6;
+}
+
+/* Chatbox */
+.chatbox {
+    background: #3a2b50; /* darker muted purple */
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    box-shadow: 0 0 20px #9a6db4;
+    margin: 40px auto;
+}
+
+/* Chat log */
+#chat-log {
+    height: 300px;
+    overflow-y: auto;
+    background: #4a3a6a; /* darker purple */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #d6adc8;
+
+    /* 🧱 FIX: Stack messages vertically */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* DasBot messages */
+.das-message {
+    align-self: flex-start;
+    background-color: #4e3781;
+    color: #f9d5e5;
+    padding: 10px 15px;
+    border-radius: 12px;
+    max-width: 70%;
+    white-space: pre-line;
+    text-align: left;
+}
+
+/* User messages */
+.user-message {
+    align-self: flex-end;
+    background-color: #9b59b6;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 12px;
+    max-width: 70%;
+    text-align: right;
+}
+
+/* Input and controls container */
+.chatbox > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Input */
+input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #d6adc8; /* softer light */
+    color: #3a2b50; /* dark purple text */
+    font-weight: bold;
+}
+
+/* Mic icon styles */
+#mic-icon {
+    cursor: pointer;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    filter: brightness(0.85); /* slightly muted */
+}
+
+/* Buttons */
+button {
+    padding: 10px 15px;
+    border: none;
+    background: #8653a3; /* muted purple */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: #a373b3; /* lighter muted purple */
+    box-shadow: none;
+}
+
+/* Utility */
+.hidden {
+    display: none;
+}
