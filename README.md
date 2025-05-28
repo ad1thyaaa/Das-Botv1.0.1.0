@@ -18,6 +18,16 @@ Das-Bot is a friendly chat assistant designed for casual conversations, fun, and
 
 ---
 
+## Technologies Used
+
+- **Python 3** – Backend programming language  
+- **Flask** – Lightweight web framework for Python  
+- **HTML5 & CSS3** – Frontend markup and styling  
+- **JavaScript** – Client-side scripting for chat interactions  
+- **Git & GitHub** – Version control and repository hosting  
+
+---
+
 ## Features
 
 - Friendly chat interface with colored message bubbles.
