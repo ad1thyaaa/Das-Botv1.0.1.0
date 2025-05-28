@@ -36,6 +36,26 @@ Das-Bot is a friendly chat assistant designed for casual conversations, fun, and
 
 ---
 
+## Learning Objectives
+
+- Understand the basics of building a conversational AI chatbot using Python and Flask.
+- Learn how to structure a simple web app with backend and frontend components.
+- Gain experience integrating user input and dynamic responses in real-time chat.
+- Explore how to maintain a clean, modular codebase with separate files for core logic (`responses.py`) and app routing (`dasbot.py`).
+- Get familiar with deploying Python web apps and managing dependencies via `requirements.txt`.
+  
+---
+
+## Usage
+
+- Casual conversations to keep company or have fun.
+- Getting simple help or answers to common questions.
+- Enjoying a smooth, easy-to-use chat experience.
+
+Users simply open the app, start chatting, and get immediate responses, making Das-Bot a handy and entertaining digital companion.
+
+---
+
 ## Upcoming Features
 
 - Voice conversation.
